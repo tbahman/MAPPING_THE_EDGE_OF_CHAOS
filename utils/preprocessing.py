@@ -10,3 +10,6 @@ def build_vocab(text):
     char2idx = {char: idx for idx, char in enumerate(unique_chars)}
     idx2char = {idx: char for idx, char in enumerate(unique_chars)}
     return char2idx, idx2char
+
+def tokenize(text, char2idx):
+    return [char2idx[char] for char in text]
