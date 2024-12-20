@@ -13,3 +13,10 @@ def build_vocab(text):
 
 def tokenize(text, char2idx):
     return [char2idx[char] for char in text]
+
+def create_dataset(tokens, seq_length):
+    inputs, targets = [], []
+    for i in range(len(tokens) - seq_length):
+        inputs.append(tokens[i : i + seq_length])
+        targets.append(tokens[i + 1 : i + seq_length + 1])
+    return np.array(inputs), np.array(targets)
