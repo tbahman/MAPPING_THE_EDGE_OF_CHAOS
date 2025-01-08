@@ -14,3 +14,15 @@ class TransformerLayer(nn.Module):
     def __call__(self, x, mask=None):
         x_res = x + self.self_attention(self.layer_norm1(x), mask)
         return x_res + self.feed_forward(self.layer_norm2(x_res))
+
+class SimpleTransformer(nn.Module):
+    vocab_size: int
+    model_dim: int
+    num_heads: int
+    num_layers: int
+
+    def setup(self):
+        self.embedding = nn.Embed(self.vocab_size, self.model_dim)
+        self.layers = [TransformerLayer(self.model_dim, self.num_heads) for _ in range(self.num_layers)]
+        self.fc = nn.Dense(self.vocab_size)
+
