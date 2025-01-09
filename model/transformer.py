@@ -26,3 +26,9 @@ class SimpleTransformer(nn.Module):
         self.layers = [TransformerLayer(self.model_dim, self.num_heads) for _ in range(self.num_layers)]
         self.fc = nn.Dense(self.vocab_size)
 
+    def __call__(self, x):
+        x = self.embedding(x) + sinusoidal_positional_encoding(x.shape[1], self.model_dim)
+        for layer in self.layers:
+            x = layer(x)
+        return self.fc(x)
+
