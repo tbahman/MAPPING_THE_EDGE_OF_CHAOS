@@ -24,3 +24,26 @@ def create_train_state(rng, model, learning_rates, seq_length):
         'fc': optax.adam(learning_rates[5]),
     }
 
+    def label_params(params):
+        def match_fn(param_name):
+            if param_name.startswith('embedding/'):
+                return 'embedding'
+            elif 'self_attention' in param_name:
+                return 'attention'
+            elif 'feed_forward' in param_name:
+                return 'dense'
+            elif 'layer_norm1' in param_name:
+                return 'layer_norm_attention'
+            elif 'layer_norm2' in param_name or 'layer_norm_final' in param_name:
+                return 'layer_norm_dense'
+            elif param_name.startswith('fc/'):
+                return 'fc'
+            else:
+                return 'dense'
+        flat_params = flax.traverse_util.flatten_dict(params)
+        labels = {path: match_fn('/'.join(path)) for path in flat_params}
+        return flax.traverse_util.unflatten_dict(labels)
+
+    tx = optax.multi_transform(txs, label_params(params))
+    return train_state.TrainState.create(apply_fn=model.apply, params=params, tx=tx)
+
