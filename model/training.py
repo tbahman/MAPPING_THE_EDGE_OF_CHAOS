@@ -47,3 +47,16 @@ def create_train_state(rng, model, learning_rates, seq_length):
     tx = optax.multi_transform(txs, label_params(params))
     return train_state.TrainState.create(apply_fn=model.apply, params=params, tx=tx)
 
+@jax.jit
+def train_step(state, batch):
+    def loss_fn(params):
+        logits = state.apply_fn({'params': params}, batch['X'])
+        labels = batch['y']
+        logits = logits.reshape(-1, logits.shape[-1])
+        labels = labels.reshape(-1)
+        loss = jnp.mean(optax.softmax_cross_entropy_with_integer_labels(logits=logits, labels=labels))
+        return loss
+    loss, grads = jax.value_and_grad(loss_fn)(state.params)
+    state = state.apply_gradients(grads=grads)
+    return state, loss
+
