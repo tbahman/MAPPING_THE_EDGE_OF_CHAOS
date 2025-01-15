@@ -60,3 +60,11 @@ def train_step(state, batch):
     state = state.apply_gradients(grads=grads)
     return state, loss
 
+@jax.jit
+def eval_step(state, batch):
+    logits = state.apply_fn({'params': state.params}, batch['X'])
+    labels = batch['y']
+    logits = logits.reshape(-1, logits.shape[-1])
+    labels = labels.reshape(-1)
+    loss = jnp.mean(optax.softmax_cross_entropy_with_integer_labels(logits=logits, labels=labels))
+    return loss
