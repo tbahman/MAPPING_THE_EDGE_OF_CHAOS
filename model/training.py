@@ -68,3 +68,28 @@ def eval_step(state, batch):
     labels = labels.reshape(-1)
     loss = jnp.mean(optax.softmax_cross_entropy_with_integer_labels(logits=logits, labels=labels))
     return loss
+
+@jax.jit
+def convergence_measure(losses, max_val=10, n=4, variance_threshold=0.01):
+    gap = 0.1
+    n = len(losses) // 20
+    losses = jnp.asarray(losses, dtype=jnp.float32)
+    losses = jnp.where(jnp.isfinite(losses), losses, max_val)
+    initial_loss = losses[0] + 1e-8
+    normalized_losses = losses / initial_loss
+    normalized_losses = jnp.minimum(normalized_losses, max_val)
+    early_losses = normalized_losses[:n]
+    recent_losses = normalized_losses[-n:]
+    early_mean = jnp.mean(early_losses)
+    recent_mean = jnp.mean(recent_losses)
+    recent_variance = jnp.mean((recent_losses - recent_mean) ** 2)
+    cut_off_ = 0.4
+    converged = (recent_mean + gap < early_mean) & (recent_variance < variance_threshold) & (recent_mean < cut_off_)
+    sum_loss = jnp.where(converged, jnp.sum(normalized_losses), -jnp.sum((max_val - normalized_losses) / (max_val - 1)))
+    cap_n = len(normalized_losses)
+    measure = jnp.where(
+        converged,
+        (((1 + (cap_n - 1) * cut_off_) - jnp.sum(normalized_losses)) / ((cap_n - 1) * cut_off_)) ** 0.5,
+        -1 * (((1 + (cap_n - 1) * cut_off_) - jnp.sum(normalized_losses)) / (1 + (cap_n - 1) * (max_val - cut_off_))) ** 0.5
+    )
+    return measure, sum_loss
