@@ -93,3 +93,29 @@ def convergence_measure(losses, max_val=10, n=4, variance_threshold=0.01):
         -1 * (((1 + (cap_n - 1) * cut_off_) - jnp.sum(normalized_losses)) / (1 + (cap_n - 1) * (max_val - cut_off_))) ** 0.5
     )
     return measure, sum_loss
+
+def train_model(state, train_ds, epochs=3, batch_size=32, max_loss=1e4):
+    num_batches = len(train_ds['X']) // batch_size
+    losses = []
+    for epoch in range(epochs):
+        start_time = time.time()
+        perm = np.random.permutation(len(train_ds['X']))
+        train_ds_shuffled = {
+            'X': train_ds['X'][perm],
+            'y': train_ds['y'][perm]
+        }
+        for i in range(num_batches):
+            batch = {
+                'X': train_ds_shuffled['X'][i * batch_size:(i + 1) * batch_size],
+                'y': train_ds_shuffled['y'][i * batch_size:(i + 1) * batch_size]
+            }
+            state, loss = train_step(state, batch)
+            if loss > max_loss:
+                print(f"Stopping early due to divergence. Loss: {loss:.4f}")
+                convergence, sum_loss = convergence_measure(losses)
+                return state, convergence, sum_loss
+            if i % max(1, num_batches // 512) == 0:
+                losses.append(float(loss))
+        end_time = time.time()
+    convergence, sum_loss = convergence_measure(losses)
+    return state, convergence, sum_loss
