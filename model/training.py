@@ -146,3 +146,17 @@ def train_and_evaluate_learning_rates(
             fc_lr,
             fc_lr
         ]
+        state = create_train_state(rng, model, learning_rates, seq_length)
+        state, convergence, sum_loss = train_model(
+            state, train_ds, epochs=epochs, batch_size=batch_size
+        )
+        key = f"t_lr_{t_lr:.12f}_fc_lr_{fc_lr:.12f}"
+        results[key] = {
+            'transformer_lr': t_lr,
+            'fc_lr': fc_lr,
+            'sum_loss': sum_loss,
+            'convergence_measure': convergence
+        }
+        current_index = idx
+    print(len(results))
+    return results
