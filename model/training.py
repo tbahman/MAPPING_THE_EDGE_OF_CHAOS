@@ -119,3 +119,30 @@ def train_model(state, train_ds, epochs=3, batch_size=32, max_loss=1e4):
         end_time = time.time()
     convergence, sum_loss = convergence_measure(losses)
     return state, convergence, sum_loss
+
+def train_and_evaluate_learning_rates(
+    learning_rate_pairs, train_ds, char2idx, idx2char, seq_length, prompt="To be or not to be ",
+    vocab_size=96, model_dim=96, num_heads=3, num_layers=2,
+    epochs=2, batch_size=32, max_length=96, temperature=0.2,
+    generate_text_before_after=True, current_index=0, results={}, checkpoint_ver=1, args_adls_output=''
+):
+    current_index, results = load_checkpoint(args_adls_output, checkpoint=checkpoint_ver)
+    for idx, (t_lr, fc_lr) in enumerate(learning_rate_pairs):
+        if idx < current_index:
+            continue
+        print(f'Processing ... {idx + 1} out of {len(learning_rate_pairs)}')
+        rng = jax.random.PRNGKey(0)
+        model = SimpleTransformer(
+            vocab_size=vocab_size,
+            model_dim=model_dim,
+            num_heads=num_heads,
+            num_layers=num_layers
+        )
+        learning_rates = [
+            fc_lr,
+            t_lr,
+            fc_lr,
+            t_lr,
+            fc_lr,
+            fc_lr
+        ]
