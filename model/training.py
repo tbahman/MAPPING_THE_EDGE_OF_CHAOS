@@ -160,3 +160,11 @@ def train_and_evaluate_learning_rates(
         current_index = idx
     print(len(results))
     return results
+
+def save_results_to_json(results, args_adls_output, filename_prefix='results'):
+    serializable_results = convert_to_serializable(results)
+    current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
+    filename = f"{args_adls_output}/{filename_prefix}_{current_time}.json"
+    with open(filename, 'w') as json_file:
+        json.dump(serializable_results, json_file, indent=4)
+    print(f"Results saved to {filename}")
