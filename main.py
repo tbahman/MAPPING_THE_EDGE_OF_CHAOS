@@ -27,3 +27,22 @@ def main(args):
     b_ = round(0.025000224 + _n_ * percision_ * num_values_t, 10)
     t_lr_range = (a_, b_)
     checkpoint_ver = int(8000 + _n_)
+    
+    print(t_lr_range, fc_lr_range, num_values_t, num_values_fc, checkpoint_ver)
+
+    file_in_path = 'gutenberg_100.txt'
+    with open(file_in_path, 'r', encoding='utf-8') as file:
+        text = file.read()
+
+    cleaned_text = clean_gutenberg_text(text)
+    char2idx, idx2char = build_vocab(cleaned_text)
+    tokens = tokenize(cleaned_text, char2idx)
+    inputs, targets = create_dataset(tokens, seq_length)
+    test_size = int(len(inputs) * 0.96)
+    train_size = int(len(inputs) * 0.2)
+    X_train = inputs[:train_size]
+    y_train = targets[:train_size]
+    X_val = inputs[test_size:]
+    y_val = targets[test_size:]
+    train_ds = {'X': X_train, 'y': y_train}
+    val_ds = {'X': X_val, 'y': y_val}
