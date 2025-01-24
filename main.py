@@ -46,3 +46,7 @@ def main(args):
     y_val = targets[test_size:]
     train_ds = {'X': X_train, 'y': y_train}
     val_ds = {'X': X_val, 'y': y_val}
+
+    t_lr_values = np.linspace(t_lr_range[0], t_lr_range[1], num=num_values_t)
+    fc_lr_values = np.linspace(fc_lr_range[0], fc_lr_range[1], num=num_values_fc)
+    learning_rate_pairs = list(product(t_lr_values, fc_lr_values))
