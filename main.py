@@ -50,3 +50,22 @@ def main(args):
     t_lr_values = np.linspace(t_lr_range[0], t_lr_range[1], num=num_values_t)
     fc_lr_values = np.linspace(fc_lr_range[0], fc_lr_range[1], num=num_values_fc)
     learning_rate_pairs = list(product(t_lr_values, fc_lr_values))
+
+    print(datetime.now())
+    start_time = time.time()
+    results_all = train_and_evaluate_learning_rates(
+        learning_rate_pairs,
+        train_ds,
+        char2idx,
+        idx2char,
+        seq_length,
+        prompt="To be or not to be ",
+        vocab_size=len(char2idx),
+        model_dim=64,
+        num_heads=2,
+        num_layers=2,
+        epochs=1,
+        batch_size=256,
+        max_length=64,
+        temperature=0.3
+    )
