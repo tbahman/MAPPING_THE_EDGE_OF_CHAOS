@@ -69,3 +69,13 @@ def main(args):
         max_length=64,
         temperature=0.3
     )
+    
+    end_time = time.time()
+    print(datetime.now())
+    print(len(results_all))
+    save_results_to_json(results_all, args_adls_output)
+
+if __name__ == "__main__":
+    from config import parse_arguments
+    args = parse_arguments()
+    main(args)
