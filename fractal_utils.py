@@ -24,3 +24,20 @@ def plot_heatmap(df, s_x, s_y, metric='convergence_measure', title='Convergence 
         cmap = plt.get_cmap('RdYlBu')  
         cmap = plt.get_cmap('bwr')
         cmap = cmap.reversed()
+
+    mesh = plt.pcolormesh(X, Y, Z, shading='auto', cmap=cmap, norm=norm,  alpha=0.8)
+    cbar = plt.colorbar(mesh)
+    cbar.set_label(metric)
+
+    plt.xlabel('Attention Learning Rate')
+    plt.ylabel('FC Learning Rate')
+    plt.title(title)
+    
+    plt.grid(True, which='major', color='gray', linestyle='-', linewidth=0.5, alpha=0.8)
+    plt.minorticks_on()
+    plt.grid(True, which='minor', color='gray', linestyle='--', linewidth=0.4, alpha=0.6)
+   
+    plt.gca().xaxis.set_minor_locator(AutoMinorLocator(10))
+    plt.gca().yaxis.set_minor_locator(AutoMinorLocator(10))
+
+    plt.show()
