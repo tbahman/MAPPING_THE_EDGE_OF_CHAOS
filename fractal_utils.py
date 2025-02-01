@@ -41,3 +41,16 @@ def plot_heatmap(df, s_x, s_y, metric='convergence_measure', title='Convergence 
     plt.gca().yaxis.set_minor_locator(AutoMinorLocator(10))
 
     plt.show()
+
+def calculate_fractal_dimension(Z, fractal_name="Fractal"):
+
+    Z = (Z > 0).astype(int)
+    
+    p = min(Z.shape)
+    n = 2 ** int(floor(np.log2(p)))
+    Z = Z[:n, :n]
+    
+    sizes = 2 ** np.arange(int(np.log2(n)), 1, -1)
+    counts = []
+    
+    print(f"Calculating fractal dimension for {fractal_name}...")
