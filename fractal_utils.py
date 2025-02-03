@@ -54,3 +54,19 @@ def calculate_fractal_dimension(Z, fractal_name="Fractal"):
     counts = []
     
     print(f"Calculating fractal dimension for {fractal_name}...")
+    for size in sizes:
+        
+          num_blocks = n // size
+          count = 0
+          for i in range(num_blocks):
+              for j in range(num_blocks):
+                  block = Z[i*size:(i+1)*size, j*size:(j+1)*size]
+                  if np.any(block):
+                      count += 1
+          counts.append(count)
+          print(f"Box size: {size}, Count: {count}")
+  
+    sizes = np.array(sizes)
+    counts = np.array(counts)
+    coeffs = np.polyfit(np.log(sizes), np.log(counts), 1)
+    fractal_dimension = -coeffs[0]
