@@ -70,3 +70,20 @@ def calculate_fractal_dimension(Z, fractal_name="Fractal"):
     counts = np.array(counts)
     coeffs = np.polyfit(np.log(sizes), np.log(counts), 1)
     fractal_dimension = -coeffs[0]
+  
+    plt.figure(figsize=(8, 6))
+    plt.plot(np.log(sizes), np.log(counts), 'o-', label='Box-Counting Data')
+    plt.plot(np.log(sizes), np.polyval(coeffs, np.log(sizes)), 'r--', 
+             label=f'Fit Line (D={fractal_dimension:.4f})')
+    plt.xlabel('log(Box size)')
+    plt.ylabel('log(Count)')
+    plt.title(f'Box-Counting for Fractal Dimension of {fractal_name}')
+    plt.legend()
+    plt.grid(True)
+    plot_filename = f"box_counting_{fractal_name.replace(' ', '_').lower()}.png"
+    plt.savefig(plot_filename, bbox_inches='tight', pad_inches=0, dpi=300)
+    plt.show()
+    
+    print(f"Estimated Fractal Dimension of {fractal_name}: {fractal_dimension:.4f}\n")
+    
+    return fractal_dimension
