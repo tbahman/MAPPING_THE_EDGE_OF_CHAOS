@@ -87,3 +87,25 @@ def calculate_fractal_dimension(Z, fractal_name="Fractal"):
     print(f"Estimated Fractal Dimension of {fractal_name}: {fractal_dimension:.4f}\n")
     
     return fractal_dimension
+
+def detect_edges(fractal_img, upsample_factor=1, low_threshold=50, high_threshold=150):
+
+    if isinstance(fractal_img, np.ndarray):
+
+        if len(fractal_img.shape) == 3: 
+            fractal_img = cv2.cvtColor(fractal_img, cv2.COLOR_BGR2GRAY)
+    else:
+        fractal_img = fractal_img.convert("L")
+        fractal_img = np.array(fractal_img)  
+
+    _, binary_array = cv2.threshold(fractal_img, 127, 255, cv2.THRESH_BINARY)
+ 
+    if upsample_factor > 1:
+        height, width = binary_array.shape
+        upsampled_array = cv2.resize(
+            binary_array, 
+            (width * upsample_factor, height * upsample_factor), 
+            interpolation=cv2.INTER_NEAREST
+        )
+    else:
+        upsampled_array = binary_array
