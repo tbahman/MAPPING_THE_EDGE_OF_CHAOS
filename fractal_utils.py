@@ -109,3 +109,13 @@ def detect_edges(fractal_img, upsample_factor=1, low_threshold=50, high_threshol
         )
     else:
         upsampled_array = binary_array
+
+    grad_x = cv2.Sobel(upsampled_array, cv2.CV_64F, 1, 0, ksize=3)
+    grad_y = cv2.Sobel(upsampled_array, cv2.CV_64F, 0, 1, ksize=3)
+   
+    magnitude = np.sqrt(grad_x**2 + grad_y**2)
+    magnitude = np.uint8(255 * magnitude / np.max(magnitude))
+  
+    _, edges = cv2.threshold(magnitude, high_threshold, 255, cv2.THRESH_BINARY)
+
+    return edges
