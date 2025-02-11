@@ -89,8 +89,8 @@ def convergence_measure(losses, max_val=10, n=4, variance_threshold=0.01):
     cap_n = len(normalized_losses)
     measure = jnp.where(
         converged,
-        (((1 + (cap_n - 1) * cut_off_) - jnp.sum(normalized_losses)) / ((cap_n - 1) * cut_off_)) ** 0.5,
-        -1 * (((1 + (cap_n - 1) * cut_off_) - jnp.sum(normalized_losses)) / (1 + (cap_n - 1) * (max_val - cut_off_))) ** 0.5
+        ((      (1+(cap_n-1)*cut_off_) - jnp.sum(normalized_losses)) / ((cap_n - 1) * cut_off_)) ** 0.5,
+        -1*(-1*((1+(cap_n-1)*cut_off_) - jnp.sum(normalized_losses)) /(1+ (cap_n-1)*(max_val-cut_off_) ))**0.5
     )
     return measure, sum_loss
 
