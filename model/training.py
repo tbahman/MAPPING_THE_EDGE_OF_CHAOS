@@ -7,8 +7,7 @@ import numpy as np
 from itertools import product
 from datetime import datetime
 import time
-from utils.checkpoint import save_checkpoint, load_checkpoint
-from utils.preprocessing import convert_to_serializable
+from utils.checkpoint import save_checkpoint, load_checkpoint, convert_to_serializable
 from model.transformer import SimpleTransformer
 from utils.signal_handler import register_signal_handler
 
