@@ -1,5 +1,6 @@
 import json
 import os
+import jax
 import flax
 import numpy as np
 import jax.numpy as jnp
