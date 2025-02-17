@@ -10,6 +10,12 @@ Training large-scale language models is a delicate balancing act. Drawing inspir
 
 <img src="etc/zoomed_10.png" alt="mu-mu" style="width:33%; height:33%;">   <img src="etc/zoomed_11.png" alt="mu-mu" style="width:33%; height:33%;">
 
+<div>
+  <img src="etc/zoomed_10.png" alt="Image 1" style="width:40%; display: inline-block;">
+  <img src="etc/zoomed_11.png" alt="Image 2" style="width:40%; display: inline-block; margin-top: -20px;">
+</div>
+
+
 ## Summary
 
 The paper demonstrates that:
