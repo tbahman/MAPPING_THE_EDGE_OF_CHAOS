@@ -23,3 +23,21 @@ The paper demonstrates that:
 - Using a decoder-only transformer model (with 95,973 trainable parameters) trained on character-level data from Shakespeare’s works, the study visualizes these boundaries.
 
   <img src="etc/transformerss.png" alt="mu-mu" style="width:50%; height:50%;"> 
+
+- **Input Tokens:** Sequences of token with a length of 64.
+- **Embedding Layer:**
+  - Maps tokens to embeddings.
+- **Positional Encoding:**
+  - Adds positional information to embeddings.
+- **Transformer Layers (2 layers):**
+  - **Within Each Layer:**
+    - Layer Normalization
+    - Two-Head Self-Attention
+    - Residual Connection
+    - Layer Normalization
+    - Feed-Forward Network (2 layers with ReLU and linear activations)
+    - Residual Connection
+- **Final Layer Normalization:**
+  - Normalizes the output from the last transformer layer.
+- **Output Layer:**
+  - Projects normalized outputs to vocabulary logits.
