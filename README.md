@@ -21,4 +21,4 @@ The paper demonstrates that:
 
 - Using a decoder-only transformer model (with 95,973 trainable parameters) trained on character-level data from Shakespeare’s works, the study visualizes these boundaries.
 
-  <img src="etc/transformerss.png" alt="mu-mu" style="width:75%; height:75%;"> 
+  <img src="etc/transformerss.png" alt="mu-mu" style="width:60%; height:60%;"> 
