@@ -12,7 +12,7 @@ Training large-scale language models is a delicate balancing act. Drawing inspir
 
 <div>
   <img src="etc/zoomed_10.png" alt="Image 1" style="width:40%; display: inline-block;">
-  <img src="etc/zoomed_11.png" alt="Image 2" style="width:40%; display: inline-block; margin-top: -20px;">
+  <img src="etc/zoomed_11.png" alt="Image 2" style="width:40%; display: inline-block; margin-top: -200px;">
 </div>
 
 
