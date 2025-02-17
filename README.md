@@ -8,12 +8,7 @@ This repository contains code from the study *Mapping the Edge of Chaos: Fractal
 
 Training large-scale language models is a delicate balancing act. Drawing inspiration from fractal geometry, this work investigates the “edge of chaos” where the convergence behavior of a decoder-only transformer is highly sensitive to hyperparameter choices. By mapping the hyperparameter landscape with a novel convergence measure, the experiments uncover self-similar, chaotic boundaries that repeat across scales.
 
-<img src="etc/zoomed_10.png" alt="mu-mu" style="width:33%; height:33%;">   <img src="etc/zoomed_11.png" alt="mu-mu" style="width:33%; height:33%;">
-
-<div>
-  <img src="etc/zoomed_10.png" alt="Image 1" style="width:40%; display: inline-block;">
-  <img src="etc/zoomed_11.png" alt="Image 2" style="width:40%; display: inline-block; margin-top: -200px;">
-</div>
+<img src="etc/zoomed_10.png" alt="mu-mu" style="width:33%; height:33%;"> <img src="etc/zoomed_11.png" alt="mu-mu" style="width:33%; height:33%;"> <img src="etc/zoomed_12.png" alt="mu-mu" style="width:33%; height:33%;">
 
 
 ## Summary
