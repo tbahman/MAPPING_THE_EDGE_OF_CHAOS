@@ -19,6 +19,7 @@ The paper demonstrates that:
 - The boundary between stable (convergent) and unstable (divergent) training regimes exhibits chaotic characteristics.
 - A consistent convergence measure is defined—based on the loss function’s behavior to evaluate training stability.
 - Experiments reveal that slight adjustments in learning rates (for attention and fully connected layers) lead to a complex partitioning of the hyperparameter space.
+- For instance, the region depicted in the black-and-white image, corresponding to the borders between convergence and divergence during training, exhibits a fractal dimension of 1.9772.
 
 ## LLM Architecture 
 
